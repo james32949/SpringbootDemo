@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = "/frontend/member/memberinfo.html")
+@WebFilter(urlPatterns = "/frontend/member/memberinfo.html", filterName = "LoginFilter")
 public class LoginFilter implements Filter {
 
 	@Override
@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
 		// 取得Session
 		HttpSession session = req.getSession();
 		
-		Object account = session.getAttribute("userAccount");
+		Object account = session.getAttribute("memberID");
 		
 		if (account == null) {
 			session.setAttribute("location", req.getRequestURI());

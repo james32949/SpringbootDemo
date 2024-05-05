@@ -25,22 +25,6 @@ public class MyController1 {
 		return "form1";
 	}
 
-	// 會員資料頁面
-	@GetMapping("/frontend/member/memberinfo.html")
-	public String memberInfo(HttpSession session, Model model) {
-		Integer userId = (Integer) session.getAttribute("memberID"); // 取得session內的值
-
-		MemberVO mem = memSvc.getOneMember(userId); // 查找會員資料
-		model.addAttribute("memberData", mem); // 轉交
-		return "frontend/member/memberinfo";
-	}
-
-	// 登入頁面
-	@GetMapping("/frontend/member/memberLogin.html")
-	public String memberLogin() {
-		return "frontend/member/memberLogin";
-	}
-
 	// 用戶登入
 	@PostMapping("/Login")
 	public String Login(HttpServletRequest req, HttpSession session, Model model) {
@@ -58,18 +42,14 @@ public class MyController1 {
 			System.out.println("密碼錯誤"); // 密碼錯誤
 		} else {
 			System.out.println("密碼正確"); // 密碼正確
-			session.setAttribute("memberID", mem.getMemberId());
-			session.setAttribute("userAccount", userAccount); // 帳號密碼正確 將Account 存入Session
+			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
+			
 			return "redirect:frontend/member/memberinfo.html";
 		}
 		return "frontend/member/memberLogin";
 	}
 	
-	//登入頁面點擊註冊 轉跳至註冊頁面
-	@GetMapping("/frontend/member/memberRegister")
-	public String Repository() {
-		return "frontend/member/memberRegister";
-	}
+
 
 	// USER修改資料
 	@PostMapping("/userUpData")
@@ -94,9 +74,9 @@ public class MyController1 {
 	
 	//在註冊頁面 點擊註冊按鈕
 	@PostMapping("/Register")
-	public String userRepository(HttpServletRequest req, Model model) {
-		System.out.println("!!註冊!!");
-		
+	public String userRepository(HttpServletRequest req, Model model, HttpSession session) {
+//		System.out.println("!!註冊!!");
+		//取得USER輸入的值
 		String userName = req.getParameter("userName");
 		String userAccount = req.getParameter("userAccount");
 		String userPassword = req.getParameter("userPassword");
@@ -105,9 +85,7 @@ public class MyController1 {
 		String userAddress = req.getParameter("userAddress");
 		Date userBirthday =Date.valueOf(req.getParameter("userBirthday"));
 		Integer userGender =Integer.valueOf(req.getParameter("userGender")) ;
-		
 			
-		
 		System.out.println(userName);
 		System.out.println(userAccount);
 		System.out.println(userPassword);
@@ -116,12 +94,14 @@ public class MyController1 {
 		System.out.println(userAddress);
 		System.out.println(userBirthday);
 		System.out.println(userGender);
-		
+		//新增帳號
 		MemberVO newMember = memSvc.newMember(userName, userAccount, userPassword, userEmail, userPhone, userAddress, userGender, userBirthday);
-		
+		//轉交 寫入session保存登入狀態
 		model.addAttribute("memberData", newMember);
+		System.out.println(newMember.getMemberId());
+		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 		
-		return "frontend/member/memberRegister.html";
+		return "frontend/member/memberinfo.html";
 	}
 
 }

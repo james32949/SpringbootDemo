@@ -18,4 +18,10 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer>{
 	@Query(nativeQuery = true, value ="UPDATE member SET member_name=?1, member_email=?2, member_phone=?3, member_address=?4, member_birthday=?5 WHERE member_id=?6")
 	int upData(String memberName, String memberEmail, String memberPhone, String memberAddress, Date memberBirthday, String memberId);
 	
+	boolean existsBymemberAccount(String memberAccount);
+	
+	boolean existsBymemberPhone(String memberPhone);
+	
+	boolean existsBymemberEmail(String memberEmail);
+	
 }
