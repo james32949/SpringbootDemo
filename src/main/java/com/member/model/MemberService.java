@@ -55,16 +55,18 @@ public class MemberService {
 	// 用戶修改資料
 	public MemberVO upUserData(String memberId, String inputName, String inputEmail, String inputPhone,
 			String inputAddrsee, String inputBirthday) {
-		
-		int upData = repository.upData(inputName, inputEmail, inputPhone, inputAddrsee, Date.valueOf(inputBirthday), memberId);
+
+		int upData = repository.upData(inputName, inputEmail, inputPhone, inputAddrsee, Date.valueOf(inputBirthday),
+				memberId);
 //		System.out.println(upData);
 		MemberVO newData = repository.findById(Integer.valueOf(memberId)).get();
 		return newData;
 	}
 
-	public MemberVO newMember(String Name, String Account, String Password,String Email, String Phone, String Address, Integer Gender, Date Birthday) {
-		MemberVO mem =new MemberVO();
-		
+	public MemberVO newMember(String Name, String Account, String Password, String Email, String Phone, String Address,
+			Integer Gender, Date Birthday) {
+		MemberVO mem = new MemberVO();
+
 		mem.setMemberName(Name);
 		mem.setMemberAccount(Account);
 		mem.setMemberPassword(Password);
@@ -74,9 +76,22 @@ public class MemberService {
 		mem.setMemberState(0);
 		mem.setMemberGender(Gender);
 		mem.setMemberBirthday(Birthday);
-		
+
 		MemberVO newMember = repository.save(mem);
 		return newMember;
 	}
+
+	public boolean checkAccount(String account) {
+		return repository.existsBymemberAccount(account);
+	}
+	
+	public boolean checkPhone(String phone) {
+		return repository.existsBymemberPhone(phone);
+	}
+	
+	public boolean checkEmail(String email) {
+		return repository.existsBymemberEmail(email);
+	}
+
 
 }

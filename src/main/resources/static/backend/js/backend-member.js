@@ -1,5 +1,5 @@
 //JS 動態路徑
-var MyPoint = "/QueryMember"; //對應XML的 <url-pattern>/Ajax</url-pattern>  記得檢查路徑是否正確
+var MyPoint = "/QueryMember"; 
 var host = window.location.host;
 var path = window.location.pathname;
 var webCtx = path.substring(0, path.indexOf('/', 1));
@@ -25,7 +25,7 @@ $(document).on('click', '#stateButton', function(){
 	
 	
 	$.post({
-		url:"/backend/member/Ajax",
+		url:"/demo/backend/member/Ajax",
 		data:{
 			"memberID":memberID
 		},
