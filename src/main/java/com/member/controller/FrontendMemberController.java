@@ -61,8 +61,6 @@ public class FrontendMemberController {
 			String inputAccount = req.getParameter("inputAccount");
 			Boolean acc = memSvc.checkAccount(inputAccount);
 
-			System.out.println(acc);
-
 			JSONObject objAccount = new JSONObject();
 			if (acc) {
 				objAccount.put("inputAccount", true);
@@ -76,8 +74,6 @@ public class FrontendMemberController {
 			String inputPhone = req.getParameter("inputPhone");
 			Boolean phone = memSvc.checkPhone(inputPhone);
 
-			System.out.println(phone);
-
 			JSONObject objPhone = new JSONObject();
 			if (phone) {
 				objPhone.put("inputPhone", true);
@@ -88,8 +84,7 @@ public class FrontendMemberController {
 			}
 			break;
 		case "Email":
-			String inputEmail = req.getParameter("inputEmail");
-			
+			String inputEmail = req.getParameter("inputEmail");		
 			Boolean email = memSvc.checkEmail(inputEmail);
 
 			JSONObject objEmail = new JSONObject();
