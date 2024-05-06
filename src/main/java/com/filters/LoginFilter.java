@@ -12,16 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = "/frontend/member/memberinfo.html", filterName = "LoginFilter")
+import org.springframework.stereotype.Component;
+
+
+@WebFilter
 public class LoginFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		System.out.println("Filter被執行");
-
+//		chain.doFilter(request, response);
+		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+//		System.out.println(req.getContextPath());
+		
 		// 取得Session
 		HttpSession session = req.getSession();
 		
