@@ -86,19 +86,19 @@ public class MyController1 {
 		Date userBirthday =Date.valueOf(req.getParameter("userBirthday"));
 		Integer userGender =Integer.valueOf(req.getParameter("userGender")) ;
 			
-		System.out.println(userName);
-		System.out.println(userAccount);
-		System.out.println(userPassword);
-		System.out.println(userPhone);
-		System.out.println(userEmail);
-		System.out.println(userAddress);
-		System.out.println(userBirthday);
-		System.out.println(userGender);
+//		System.out.println(userName);
+//		System.out.println(userAccount);
+//		System.out.println(userPassword);
+//		System.out.println(userPhone);
+//		System.out.println(userEmail);
+//		System.out.println(userAddress);
+//		System.out.println(userBirthday);
+//		System.out.println(userGender);
 		//新增帳號
 		MemberVO newMember = memSvc.newMember(userName, userAccount, userPassword, userEmail, userPhone, userAddress, userGender, userBirthday);
 		//轉交 寫入session保存登入狀態
 		model.addAttribute("memberData", newMember);
-		System.out.println(newMember.getMemberId());
+//		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 		
 		return "frontend/member/memberinfo.html";
