@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service("memberService")
 public class MemberService {
@@ -54,14 +56,16 @@ public class MemberService {
 
 	// 用戶修改資料
 	public MemberVO upUserData(String memberId, String inputName, String inputEmail, String inputPhone,
-			String inputAddrsee, String inputBirthday) {
+			String inputAddrsee, String inputBirthday){
 
+		
 		int upData = repository.upData(inputName, inputEmail, inputPhone, inputAddrsee, Date.valueOf(inputBirthday),
 				memberId);
 //		System.out.println(upData);
 		MemberVO newData = repository.findById(Integer.valueOf(memberId)).get();
 		return newData;
 	}
+		
 	
 	//註冊
 	public MemberVO newMember(String Name, String Account, String Password, String Email, String Phone, String Address,
