@@ -36,8 +36,8 @@ public class MemberService {
 	// 查詢會員資料
 	public MemberVO getOneMember(Integer id) {
 		Optional<MemberVO> mem = repository.findById(id);
-		MemberVO member = mem.get();
-		return member;
+//		MemberVO member = mem.get();
+		return mem.orElse(null); //如果存在值回傳其值 否則回傳other的值
 	}
 
 	// 透過Account查詢會員資料
@@ -62,7 +62,8 @@ public class MemberService {
 		MemberVO newData = repository.findById(Integer.valueOf(memberId)).get();
 		return newData;
 	}
-
+	
+	//註冊
 	public MemberVO newMember(String Name, String Account, String Password, String Email, String Phone, String Address,
 			Integer Gender, Date Birthday) {
 		MemberVO mem = new MemberVO();
@@ -80,18 +81,18 @@ public class MemberService {
 		MemberVO newMember = repository.save(mem);
 		return newMember;
 	}
-
+	
+	//檢查帳號是否存在
 	public boolean checkAccount(String account) {
 		return repository.existsBymemberAccount(account);
 	}
-	
+	//檢查電話是否存在
 	public boolean checkPhone(String phone) {
 		return repository.existsBymemberPhone(phone);
 	}
-	
+	//檢查信箱是否存在
 	public boolean checkEmail(String email) {
 		return repository.existsBymemberEmail(email);
 	}
-
-
+	
 }

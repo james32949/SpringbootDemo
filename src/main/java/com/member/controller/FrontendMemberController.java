@@ -47,21 +47,21 @@ public class FrontendMemberController {
 		return "frontend/member/memberinfo";
 	}
 
-	// 註冊頁面傳來的ajax請求
+	//註冊頁面傳來的ajax請求 對有唯一值的欄位進行檢查
 	@PostMapping("/Ajax")
 	public void ajax(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setContentType("application/json; charset=UTF-8");
 		
 		String inputColumn = req.getParameter("inputColumn");
-//		System.out.println(inputColumn);
+		System.out.println(inputColumn);
 		
 		//檢查輸入欄位
 		switch (inputColumn) {
 		case "Account":
-			String inputAccount = req.getParameter("inputAccount");
-			Boolean acc = memSvc.checkAccount(inputAccount);
+			String inputAccount = req.getParameter("inputAccount"); //取得UESR輸入資料
+			Boolean acc = memSvc.checkAccount(inputAccount);  //檢查資料庫資料 判斷有無重複
 
-			JSONObject objAccount = new JSONObject();
+			JSONObject objAccount = new JSONObject(); //使用JSON回傳結果
 			if (acc) {
 				objAccount.put("inputAccount", true);
 				res.getWriter().print(objAccount);
@@ -71,10 +71,10 @@ public class FrontendMemberController {
 			}
 			break;
 		case "Phone":
-			String inputPhone = req.getParameter("inputPhone");
-			Boolean phone = memSvc.checkPhone(inputPhone);
+			String inputPhone = req.getParameter("inputPhone"); //取得UESR輸入資料
+			Boolean phone = memSvc.checkPhone(inputPhone);  //檢查資料庫資料 判斷有無重複
 
-			JSONObject objPhone = new JSONObject();
+			JSONObject objPhone = new JSONObject();  //使用JSON回傳結果
 			if (phone) {
 				objPhone.put("inputPhone", true);
 				res.getWriter().print(objPhone);
@@ -84,10 +84,10 @@ public class FrontendMemberController {
 			}
 			break;
 		case "Email":
-			String inputEmail = req.getParameter("inputEmail");		
-			Boolean email = memSvc.checkEmail(inputEmail);
+			String inputEmail = req.getParameter("inputEmail"); //取得UESR輸入資料
+			Boolean email = memSvc.checkEmail(inputEmail);  //檢查資料庫資料 判斷有無重複
 
-			JSONObject objEmail = new JSONObject();
+			JSONObject objEmail = new JSONObject(); //使用JSON回傳結果
 			if (email) {
 				objEmail.put("inputEmail", true);
 				res.getWriter().print(objEmail);

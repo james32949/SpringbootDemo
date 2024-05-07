@@ -38,15 +38,17 @@ public class MyController1 {
 		// 判斷USER輸入的帳號密碼是否正確
 		if (mem == null) {
 			System.out.println("查無帳號"); // 查無帳號
+			model.addAttribute("errorMessage", "帳號或密碼錯誤");
 		} else if (!userPassword.equals(mem.getMemberPassword())) {
 			System.out.println("密碼錯誤"); // 密碼錯誤
+			model.addAttribute("errorMessage", "帳號或密碼錯誤");
 		} else {
 			System.out.println("密碼正確"); // 密碼正確
 			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 			
-			return "redirect:frontend/member/memberinfo.html";
+			return "redirect:frontend/member/memberinfo.html";  //轉向至會員個人資料
 		}
-		return "frontend/member/memberLogin";
+		return "frontend/member/memberLogin";  //回到登入頁面
 	}
 	
 
