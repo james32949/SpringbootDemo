@@ -51,10 +51,12 @@ public class MemberController {
 	// 點擊修改按鈕發送Ajax請求
 	@PostMapping("/Ajax")
 	@ResponseBody()
-	public MemberVO getAjax(HttpServletRequest req) {
+	public MemberVO getAjax(HttpServletRequest req, Model model) {
 
 		Integer id = Integer.valueOf(req.getParameter("memberID")); // 取得Ajax資料
 		MemberVO member = memSvc.memberStateFindById(id); // 檢查會員狀態並修改狀態
+		List<MemberVO> list = memSvc.getAll();
+		model.addAttribute("memListData", list);
 //		System.out.println("修改後的狀態:"+memberState.getMemberState());
 
 		return member;
