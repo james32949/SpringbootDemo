@@ -25,7 +25,7 @@ $(document).on('click', '#stateButton', function () {
 
 
 	$.post({
-		url: "/demo/backend/member/Ajax",
+		url: "/backend/member/Ajax",
 		data: {
 			"memberID": memberID
 		},

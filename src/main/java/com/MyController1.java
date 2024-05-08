@@ -26,6 +26,12 @@ public class MyController1 {
 	public String Myfone() {
 		return "form1";
 	}
+	
+	
+	@GetMapping("test")
+	public String test() {
+		return "frontend/test.html";
+	}
 
 
 	

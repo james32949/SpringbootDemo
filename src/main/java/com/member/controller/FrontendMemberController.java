@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
@@ -48,21 +50,21 @@ public class FrontendMemberController {
 		return "frontend/member/memberinfo";
 	}
 
-	//註冊頁面傳來的ajax請求 對有唯一值的欄位進行檢查
+	// 註冊頁面傳來的ajax請求 對有唯一值的欄位進行檢查
 	@PostMapping("/Ajax")
 	public void ajax(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setContentType("application/json; charset=UTF-8");
-		
+
 		String inputColumn = req.getParameter("inputColumn");
 		System.out.println(inputColumn);
-		
-		//檢查輸入欄位
+
+		// 檢查輸入欄位
 		switch (inputColumn) {
 		case "Account":
-			String inputAccount = req.getParameter("inputAccount"); //取得UESR輸入資料
-			Boolean acc = memSvc.checkAccount(inputAccount);  //檢查資料庫資料 判斷有無重複
+			String inputAccount = req.getParameter("inputAccount"); // 取得UESR輸入資料
+			Boolean acc = memSvc.checkAccount(inputAccount); // 檢查資料庫資料 判斷有無重複
 
-			JSONObject objAccount = new JSONObject(); //使用JSON回傳結果
+			JSONObject objAccount = new JSONObject(); // 使用JSON回傳結果
 			if (acc) {
 				objAccount.put("inputAccount", true);
 				res.getWriter().print(objAccount);
@@ -72,10 +74,10 @@ public class FrontendMemberController {
 			}
 			break;
 		case "Phone":
-			String inputPhone = req.getParameter("inputPhone"); //取得UESR輸入資料
-			Boolean phone = memSvc.checkPhone(inputPhone);  //檢查資料庫資料 判斷有無重複
+			String inputPhone = req.getParameter("inputPhone"); // 取得UESR輸入資料
+			Boolean phone = memSvc.checkPhone(inputPhone); // 檢查資料庫資料 判斷有無重複
 
-			JSONObject objPhone = new JSONObject();  //使用JSON回傳結果
+			JSONObject objPhone = new JSONObject(); // 使用JSON回傳結果
 			if (phone) {
 				objPhone.put("inputPhone", true);
 				res.getWriter().print(objPhone);
@@ -85,10 +87,10 @@ public class FrontendMemberController {
 			}
 			break;
 		case "Email":
-			String inputEmail = req.getParameter("inputEmail"); //取得UESR輸入資料
-			Boolean email = memSvc.checkEmail(inputEmail);  //檢查資料庫資料 判斷有無重複
+			String inputEmail = req.getParameter("inputEmail"); // 取得UESR輸入資料
+			Boolean email = memSvc.checkEmail(inputEmail); // 檢查資料庫資料 判斷有無重複
 
-			JSONObject objEmail = new JSONObject(); //使用JSON回傳結果
+			JSONObject objEmail = new JSONObject(); // 使用JSON回傳結果
 			if (email) {
 				objEmail.put("inputEmail", true);
 				res.getWriter().print(objEmail);
@@ -100,8 +102,7 @@ public class FrontendMemberController {
 		}
 
 	}
-	
-	
+
 	// 用戶登入
 	@PostMapping("/Login")
 	public String Login(HttpServletRequest req, HttpSession session, Model model) {
@@ -122,48 +123,63 @@ public class FrontendMemberController {
 		} else {
 			System.out.println("密碼正確"); // 密碼正確
 			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
-			
-			return "redirect:frontend/member/memberinfo.html";  //轉向至會員個人資料
+
+			return "redirect:/frontend/member/memberinfo.html"; // 轉向至會員個人資料
 		}
-		return "frontend/member/memberLogin";  //回到登入頁面
+		return "frontend/member/memberLogin"; // 回到登入頁面
 	}
-	
-	
+
 	// USER修改資料
 	@PostMapping("/userUpData")
-	public String userUpData(HttpServletRequest req, HttpSession session, Model model) {
-		//取得USER輸入的值
+	public String userUpData(HttpServletRequest req, HttpSession session, Model model,
+			@RequestParam("memberImg") MultipartFile[] img) throws IOException {
+		// 取得USER輸入的值
 		Object MemberID = session.getAttribute("memberID");
 		String inputName = req.getParameter("memberName");
 		String inputEmail = req.getParameter("memberEmail");
 		String inputPhone = req.getParameter("memberPhone");
 		String inputAddrsee = req.getParameter("memberAddress");
 		String inputBirthday = req.getParameter("memberBirthday");
-		
-		
 		String ID = String.valueOf(MemberID);
-		//修改資料
-		MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
-		//轉交
-		model.addAttribute("memberData", upUserData);
+		
+		System.out.println(img[0].isEmpty());
+		
+		if (!img[0].isEmpty()) {
+			System.out.println("img不為空");
+			for (MultipartFile user : img) {
+				byte[] buf = user.getBytes();
+				memSvc.upDataByImg(ID, buf);
+			}
+			// 修改資料
+			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
+			// 轉交
+			model.addAttribute("memberData", upUserData);
+			return "frontend/member/memberinfo.html";
 
-		return "frontend/member/memberinfo.html";
+		} else {			
+			System.out.println("img為空");
+			// 修改資料
+			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
+			// 轉交
+			model.addAttribute("memberData", upUserData);
+			return "frontend/member/memberinfo.html";
+		}
 	}
-	
-	//在註冊頁面 點擊註冊按鈕
+
+	// 在註冊頁面 點擊註冊按鈕
 	@PostMapping("/Register")
 	public String userRepository(HttpServletRequest req, Model model, HttpSession session) {
 //		System.out.println("!!註冊!!");
-		//取得USER輸入的值
+		// 取得USER輸入的值
 		String userName = req.getParameter("userName");
 		String userAccount = req.getParameter("userAccount");
 		String userPassword = req.getParameter("userPassword");
 		String userPhone = req.getParameter("userPhone");
 		String userEmail = req.getParameter("userEmail");
 		String userAddress = req.getParameter("userAddress");
-		Date userBirthday =Date.valueOf(req.getParameter("userBirthday"));
-		Integer userGender =Integer.valueOf(req.getParameter("userGender")) ;
-			
+		Date userBirthday = Date.valueOf(req.getParameter("userBirthday"));
+		Integer userGender = Integer.valueOf(req.getParameter("userGender"));
+
 //		System.out.println(userName);
 //		System.out.println(userAccount);
 //		System.out.println(userPassword);
@@ -172,13 +188,14 @@ public class FrontendMemberController {
 //		System.out.println(userAddress);
 //		System.out.println(userBirthday);
 //		System.out.println(userGender);
-		//新增帳號
-		MemberVO newMember = memSvc.newMember(userName, userAccount, userPassword, userEmail, userPhone, userAddress, userGender, userBirthday);
-		//轉交 寫入session保存登入狀態
+		// 新增帳號
+		MemberVO newMember = memSvc.newMember(userName, userAccount, userPassword, userEmail, userPhone, userAddress,
+				userGender, userBirthday);
+		// 轉交 寫入session保存登入狀態
 		model.addAttribute("memberData", newMember);
 //		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
-		
+
 		return "frontend/member/memberinfo.html";
 	}
 

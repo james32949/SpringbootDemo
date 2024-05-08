@@ -98,5 +98,11 @@ public class MemberService {
 	public boolean checkEmail(String email) {
 		return repository.existsBymemberEmail(email);
 	}
+
+	//圖片上傳
+	public void upDataByImg(String ID, byte[] buf) {
+		repository.upImg(buf, ID);
+		return;		
+	}
 	
 }
