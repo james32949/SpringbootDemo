@@ -24,4 +24,9 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer>{
 	
 	boolean existsBymemberEmail(String memberEmail);
 	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "UPDATE member SET member_img=?1 WHERE(member_id=?2)")
+	void upImg(byte[] buf, String ID);
+	
 }

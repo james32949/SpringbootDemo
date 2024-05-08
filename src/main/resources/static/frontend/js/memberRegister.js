@@ -73,7 +73,7 @@ $('#inputAccount').blur(function(){
         $('#inputAccount').removeClass().addClass('form-control')
         
         $.post({
-            url:'/demo/frontend/member/Ajax',
+            url:'/frontend/member/Ajax',
             data:{
                 "inputColumn" : "Account",
                 "inputAccount": inputAccount
@@ -183,7 +183,7 @@ $('#inputPhone').blur(function(){
         $('#bittonLogin').attr('disabled',true)
     } else {
         $.post({
-            url:'/demo/frontend/member/Ajax',
+            url:'/frontend/member/Ajax',
             data:{
                 "inputColumn" : "Phone",
                 "inputPhone": inputPhone
@@ -235,7 +235,7 @@ $('#inputEmail').blur(function(){
         $('#inputEmail').removeClass().addClass('form-control')
 
         $.post({
-            url:'/demo/frontend/member/Ajax',
+            url:'/frontend/member/Ajax',
             data:{
                 "inputColumn" : "Email",
                 "inputEmail": inputEmail

@@ -46,7 +46,7 @@ public class MemberVO {
 	@Column(name = "member_birthday")
 	private Date memberBirthday;
 	
-	@Lob 
+	@Lob
 	@Column(name = "member_img", columnDefinition = "blob")
 	private byte[] memberImg;
 
