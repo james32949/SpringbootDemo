@@ -20,7 +20,7 @@ import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
 @Controller
-@RequestMapping("/backend/member")
+@RequestMapping("/backend/member") 
 public class MemberController {
 
 	@Autowired

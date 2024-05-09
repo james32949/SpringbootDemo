@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,31 +27,9 @@ public class FrontendMemberController {
 
 	@Autowired
 	MemberService memSvc;
-
-	// 登入頁面
-	@GetMapping("/memberLogin.html")
-	public String memberLogin(HttpSession session) {
-		Object loginState = session.getAttribute("memberID");
-		System.out.println("登入狀態ID:"+loginState);
-		
-		//判斷用戶有無燈入 有-->個人頁面 無-->登入頁面
-		if(loginState == null) {
-			return "frontend/member/memberLogin";
-		} else {
-			return "redirect:memberinfo.html";
-		}
-		
-		
-	}
-
-	// 登入頁面點擊註冊 轉跳至註冊頁面
-	@GetMapping("/memberRegister")
-	public String Repository() {
-		return "frontend/member/memberRegister";
-	}
-
+	
 	// 會員資料頁面
-	@GetMapping("/memberinfo.html")
+	@GetMapping("/memberinfo")
 	public String memberInfo(HttpSession session, Model model) {
 		Integer userId = (Integer) session.getAttribute("memberID"); // 取得session內的值
 
@@ -114,48 +91,7 @@ public class FrontendMemberController {
 
 	}
 
-	// 用戶登入
-	@PostMapping("/Login")
-	public String Login(HttpServletRequest req, HttpServletResponse res, HttpSession session, Model model) {
-		// 接收資料
-		String userAccount = req.getParameter("userAccount");
-		String userPassword = req.getParameter("userPassword");
 
-		// 取得資料庫的USER資料
-		MemberVO mem = memSvc.getUserData(userAccount);
-
-		// 判斷USER輸入的帳號密碼是否正確
-		if (mem == null) {
-			System.out.println("查無帳號"); // 查無帳號
-			model.addAttribute("errorMessage", "帳號或密碼錯誤");
-		} else if (!userPassword.equals(mem.getMemberPassword())) {
-			System.out.println("密碼錯誤"); // 密碼錯誤
-			model.addAttribute("errorMessage", "帳號或密碼錯誤");
-		} else {
-			System.out.println("密碼正確"); // 密碼正確
-			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
-			Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷
-			res.addCookie(cookie);
-			return "redirect:/"; // 轉向至會員個人資料
-		}
-		return "frontend/member/memberLogin"; // 回到登入頁面
-	}
-
-	// 用戶登出
-	@GetMapping("/LogOut")
-	public String LogOut(HttpSession session, HttpServletResponse res, HttpServletRequest req) {
-
-		session.removeAttribute("memberID");
-
-
-		// 移除登入狀態的Cookie
-		Cookie cookie = new Cookie("LogInState", null);
-		cookie.setMaxAge(0);
-		res.addCookie(cookie);
-		
-
-		return "frontend/member/memberLogin";
-	}
 
 	// USER修改資料
 	@PostMapping("/userUpData")
