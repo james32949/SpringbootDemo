@@ -32,34 +32,16 @@ public class LoginController {
 	}
 	
 	
-	@GetMapping("/test")
+	@GetMapping("/index")
 	public String test() {
-		return "front-end/test";
+		return "front-end/index";
 	}
-	
-	
-	
-	
-	
-	
-	// 登入頁面
-	@GetMapping("/memberLogin.html")
-	public String memberLogin(HttpSession session) {
-		Object loginState = session.getAttribute("memberID");
-//		System.out.println("登入狀態ID:"+loginState);
-		
-		//判斷用戶有無燈入 有-->個人頁面 無-->登入頁面
-		if(loginState == null) {
-			return "frontend/member/memberLogin";
-		} else {
-			return "redirect:frontend/member/memberinfo";
-		}	
-	}
+
 	
 	// 登入頁面點擊註冊 轉跳至註冊頁面
 	@GetMapping("/memberRegister")
 	public String Repository() {
-		return "frontend/member/memberRegister";
+		return "front-end/member/memberRegister";
 	}
 	
 	// 用戶登入
@@ -104,9 +86,9 @@ public class LoginController {
 	// 用戶登出
 	@GetMapping("/LogOut")
 	public String LogOut(HttpSession session, HttpServletResponse res, HttpServletRequest req) {
-
+		
+		//移除紀錄登入狀態的session
 		session.removeAttribute("memberID");
-
 
 		// 移除登入狀態的Cookie
 		Cookie cookie = new Cookie("LogInState", null);
@@ -114,7 +96,7 @@ public class LoginController {
 		res.addCookie(cookie);
 		
 
-		return "redirect:/test";
+		return "redirect:/index";
 	}
 	
 	
