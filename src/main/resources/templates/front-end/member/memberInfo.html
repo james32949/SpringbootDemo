@@ -18,47 +18,88 @@
 		<div class="news-section">
 			<div class="container">
 				<!-- 東西從這裡放 -->
-				<div class="about">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-5">
-								<div class="titlepage">
-									<h2>最新消息</h2>
-									<p>123123123</p>
-									<a class="read_more" href=" ">觀看全文</a>
+				<div style="width: 100%; display: flex; justify-content: center;">
+
+		<div class="card mb-3" style="width: 300px; min-width: 300px; height:292px;">
+			<h3 class="card-header">會員專區</h3>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">個人資料</li>
+				<li class="list-group-item">訂房查詢</li>
+				<li class="list-group-item">活動訂單</li>
+				<li class="list-group-item">餐廳訂位</li>
+				<li class="list-group-item">宴會聽</li>
+			</ul>
+			<div class="card-footer text-muted">JoyfulResort</div>
+		</div>
+
+
+
+		<div class="card" style="max-width: 600px; min-width: 600px;">
+			<div class="card-header">
+				<h3>個人資料</h3>
+			</div>
+
+			<div class="card-body">
+				<form th:action="@{/frontend/member/userUpData}" method="post" enctype="multipart/form-data">
+					<div class="input-group mb-3">
+						<div style="width: 100%; display: flex;">
+							<div id="preview" style=" height: 150px; width: 150px; float: left;"><img class="img-thumbnail"
+									th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}"></div>
+							<div>
+								<div class="input-group mb-3" style="float: left;">
+									<span class="input-group-text">會員帳號</span> <span style="width: auto;" class="input-group-text"
+										th:text="${memberData.memberAccount}"></span>
 								</div>
-							</div>
-							<div class="col-md-7">
-								<div class="about_img">
-									<figure>
-										<img th:src="@{/frontend/images/about.png}" alt="#" />
-									</figure>
+								<div class="input-group mb-3" style="width: 300px;">
+									<span class="input-group-text">會員名稱</span> <input type="text" id="memberName" name="memberName"
+										class="form-control" th:value="${memberData.memberName}"
+										aria-label="Amount (to the nearest dollar)">
+								</div>
+								<div>
+									<input id="formFile" name="memberImg" th:fiele="*{memberImg}" class="form-control" type="file"
+										style="width: 300px;">
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- 關於我們區域結束 -->
 
-				<!-- 最新消息 -->
-				<div class="news-section">
-					<div class="container">
-						<h2>最新消息</h2>
-						<!-- 新聞項目 -->
-						<div class="news-item">
-							<img th:src="@{/frontend/path-to-your-image.jpg}"
-								alt="news image">
-							<div class="news-content">
-								<h3>新聞標題一</h3>
-								<p class="date">2024.04.15 - 2024.12.31</p>
-								<p>這裡是關於新聞標題一的簡要內容，點擊查看全文。</p>
-								<a href="link-to-full-article.html" class="read-more">觀看全文</a>
-							</div>
-						</div>
-						
+
+					<span id="emailError" style="color: red; float: right;"></span>
+					<div class="input-group mb-3" style="flex-shrink: 0; width:400px !important;">
+						<span class="input-group-text"><span style="color:red;">*</span>信箱</span>
+						<input id="memberEmail" name="memberEmail" type="text" class="form-control"
+							th:value="${memberData.memberEmail}">
 					</div>
-				</div>
+					<span id="phoneError" style="color: red; float: right;"></span>
+					<div class="input-group mb-3" style="width:400px !important;">
+						<span class="input-group-text"><span style="color:red;">*</span>電話</span> <input id="memberPhone"
+							name="memberPhone" type="text" class="form-control" th:value="${memberData.memberPhone}">
+					</div>
+					<div class="input-group mb-3" style="width: 100%;">
+						<span class="input-group-text">地址</span> <input id="memberAddress" name="memberAddress" type="text"
+							class="form-control" th:value="${memberData.memberAddress}">
 
+						<span class="input-group-text" style="margin-left: 10px;">生日</span>
+						<input type="date" name="memberBirthday" th:value="${memberData.memberBirthday}">
+
+						<span class="input-group-text" style="margin-left: 10px;">性別</span>
+						<select name="userGender" th:value="${memberData.memberGender}">
+							<option value="0">男</option>
+							<option value="1">女</option>
+						</select>
+					</div>
+
+
+
+					<div style="display: flex; justify-content: center;">
+						<button id="buttonUpData" type="submit" class="btn btn-secondary">送出修改</button>
+					</div>
+				</form>
+
+			</div>
+
+		</div>
+	</div>
 
 
 

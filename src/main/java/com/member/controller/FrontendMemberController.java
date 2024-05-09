@@ -35,7 +35,7 @@ public class FrontendMemberController {
 
 		MemberVO mem = memSvc.getOneMember(userId); // 查找會員資料
 		model.addAttribute("memberData", mem); // 轉交
-		return "frontend/member/memberinfo";
+		return "front-end/member/memberinfo";
 	}
 
 	// 註冊頁面傳來的ajax請求 對有唯一值的欄位進行檢查
@@ -109,7 +109,7 @@ public class FrontendMemberController {
 		System.out.println(img[0].isEmpty());
 
 		if (!img[0].isEmpty()) {
-			System.out.println("img不為空");
+//			System.out.println("img不為空");
 			for (MultipartFile user : img) {
 				byte[] buf = user.getBytes();
 				memSvc.upDataByImg(ID, buf);
@@ -118,15 +118,15 @@ public class FrontendMemberController {
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "frontend/member/memberinfo.html";
+			return "front-end/member/memberinfo.html";
 
 		} else {
-			System.out.println("img為空");
+//			System.out.println("img為空");
 			// 修改資料
 			MemberVO upUserData = memSvc.upUserData(ID, inputName, inputEmail, inputPhone, inputAddrsee, inputBirthday);
 			// 轉交
 			model.addAttribute("memberData", upUserData);
-			return "frontend/member/memberinfo.html";
+			return "front-end/member/memberinfo.html";
 		}
 	}
 
@@ -160,7 +160,7 @@ public class FrontendMemberController {
 //		System.out.println(newMember.getMemberId());
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 
-		return "frontend/member/memberinfo.html";
+		return "front-end/member/memberinfo.html";
 	}
 
 }
