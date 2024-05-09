@@ -16,30 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
-@Controller
+
 public class MyController1 {
 
-	@Autowired
-	MemberService memSvc;
-
-	@GetMapping("/")
-	public String Myfone() {
-		return "form1";
 	}
-	
-	
-	@GetMapping("test")
-	public String test() {
-		return "frontend/test.html";
-	}
-
-
-	
-
-
-
-
-	
-
-
-}

@@ -35,7 +35,7 @@ public class LoginFilter implements Filter {
 		
 		if (account == null) {
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/frontend/member/memberLogin.html");
+			res.sendRedirect(req.getContextPath() + "/memberLogin.html");
 			return;
 		} else {
 			chain.doFilter(request, response);
