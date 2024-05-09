@@ -125,7 +125,7 @@
 				<form th:action="@{/frontend/member/userUpData}" method="post" enctype="multipart/form-data">
 					<div class="input-group mb-3">
 						<div style="width: 100%; display: flex;">
-							<div id="preview" style="border: 1px dotted black; height: 150px; width: 150px; float: left;"><img
+							<div id="preview" style=" height: 150px; width: 150px; float: left;"><img class="img-thumbnail"
 									th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}"></div>
 							<div>
 								<div class="input-group mb-3" style="float: left;">
@@ -133,8 +133,9 @@
 										th:text="${memberData.memberAccount}"></span>
 								</div>
 								<div class="input-group mb-3" style="width: 300px;">
-									<span class="input-group-text">會員名稱</span> <input type="text" name="memberName" class="form-control"
-										th:value="${memberData.memberName}" aria-label="Amount (to the nearest dollar)">
+									<span class="input-group-text">會員名稱</span> <input type="text" id="memberName" name="memberName"
+										class="form-control" th:value="${memberData.memberName}"
+										aria-label="Amount (to the nearest dollar)">
 								</div>
 								<div>
 									<input id="formFile" name="memberImg" th:fiele="*{memberImg}" class="form-control" type="file"
@@ -143,6 +144,8 @@
 							</div>
 						</div>
 					</div>
+
+
 					<span id="emailError" style="color: red; float: right;"></span>
 					<div class="input-group mb-3" style="flex-shrink: 0; width:400px !important;">
 						<span class="input-group-text"><span style="color:red;">*</span>信箱</span>
@@ -155,8 +158,8 @@
 							name="memberPhone" type="text" class="form-control" th:value="${memberData.memberPhone}">
 					</div>
 					<div class="input-group mb-3" style="width: 100%;">
-						<span class="input-group-text">地址</span> <input name="memberAddress" type="text" class="form-control"
-							th:value="${memberData.memberAddress}">
+						<span class="input-group-text">地址</span> <input id="memberAddress" name="memberAddress" type="text"
+							class="form-control" th:value="${memberData.memberAddress}">
 
 						<span class="input-group-text" style="margin-left: 10px;">生日</span>
 						<input type="date" name="memberBirthday" th:value="${memberData.memberBirthday}">

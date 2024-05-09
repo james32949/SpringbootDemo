@@ -1,14 +1,24 @@
 //取消修改按鈕功能
 $(document).ready(function () {
   $('#buttonUpData').attr('disabled', true)
+  console.log(document.cookie)
+
 })
 
 var emailState = 0;
 var phoneState = 0;
+var nameState = 0;
+var address = 0;
+
+//名稱欄位
+$('#memberName').change(function(){
+  $('#buttonUpData').attr('disabled', false)
+})
 
 //信箱欄位
-$('#memberEmail').blur(function () {
+$('#memberEmail').change(function () {
   // console.log('OK')
+  
 
   let inputEmail = $('#memberEmail').val()
   //正規表示法
@@ -57,9 +67,9 @@ $('#memberEmail').blur(function () {
 })
 
 //電話欄位
-$('#memberPhone').blur(function () {
+$('#memberPhone').change(function () {
   // console.log('OK')
-
+  
   let inputPhone = $('#memberPhone').val()
   //正規表示法
   let regexPhone = /^09\d{8}$/g
@@ -114,4 +124,10 @@ $('#formFile').on('change', function () {
     let img_html = `<img src="${reader.result}">`;
     $('#preview').html(img_html);
   })
+  $('#buttonUpData').attr('disabled', false)
+})
+
+//地址欄位
+$('#memberAddress').change(function(){
+  $('#buttonUpData').attr('disabled', false)
 })
