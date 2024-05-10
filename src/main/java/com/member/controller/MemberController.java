@@ -25,6 +25,11 @@ public class MemberController {
 
 	@Autowired
 	MemberService memSvc;
+	
+	@GetMapping("/TTT")
+	public String TTT() {
+		return "backend/member/listAllRoomOrder";
+	}
 
 	@GetMapping("/listAllMember.html")
 	public String listAllMember(Model model) {
