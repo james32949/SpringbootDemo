@@ -33,7 +33,7 @@ public class LoginController {
 	
 	
 	@GetMapping("/index")
-	public String test() {
+	public String index() {
 		return "front-end/index";
 	}
 
