@@ -3,19 +3,20 @@ package com.member.controller;
 import java.io.IOException;
 import java.sql.Date;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.member.model.MemberService;
@@ -27,6 +28,9 @@ public class FrontendMemberController {
 
 	@Autowired
 	MemberService memSvc;
+	
+	@Autowired
+	StringRedisTemplate redis;
 	
 	// 會員資料頁面
 	@GetMapping("/memberinfo")
@@ -40,7 +44,7 @@ public class FrontendMemberController {
 
 	// 註冊頁面傳來的ajax請求 對有唯一值的欄位進行檢查
 	@PostMapping("/Ajax")
-	public void ajax(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public void ajax(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setContentType("application/json; charset=UTF-8");
 
 		String inputColumn = req.getParameter("inputColumn");
@@ -161,6 +165,41 @@ public class FrontendMemberController {
 		session.setAttribute("memberID", newMember.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 
 		return "front-end/member/memberinfo.html";
+	}
+	
+	//檢查驗證碼
+	@PostMapping("/checkAuthCode")
+	@ResponseBody
+	public void checkAuthCode(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		res.setContentType("application/json; charset=UTF-8");
+		//取得用戶輸入驗證碼
+		String inputAuthCode = req.getParameter("inputAuthCode");
+//		System.out.println("用戶輸入:"+inputAuthCode);
+		//取得用戶ID
+		String id = req.getParameter("MemberID");
+//		System.out.println("ID:"+id);
+		//取得Redis內驗證碼
+		String authCode = redis.opsForValue().get("AuthCode");
+//		System.out.println("redis資料:"+authCode);
+				
+		JSONObject obj = new JSONObject();
+		if(authCode == null) { //Redis 值為空 超時
+			obj.put("checkAuthCode", "404");
+			res.getWriter().print(obj);
+		} else if (inputAuthCode.equals(authCode)) { //輸入正確
+			
+			memSvc.memberStateUpData(Integer.valueOf(id)); // 檢查會員狀態並修改狀態
+						
+			obj.put("checkAuthCode", "200");
+			res.getWriter().print(obj);
+		} else {  //輸入錯誤
+			obj.put("checkAuthCode", "400");
+			res.getWriter().print(obj);
+		}
+		
+		
+		
+		return;
 	}
 
 }

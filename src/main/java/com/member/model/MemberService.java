@@ -104,5 +104,13 @@ public class MemberService {
 		repository.upImg(buf, ID);
 		return;		
 	}
+
+	public void memberStateUpData(Integer id) {
+		Optional<MemberVO> mem = repository.findById(id);
+		MemberVO member = mem.get();
+		member.setMemberState(1);
+		repository.save(member);
+		return;
+	}
 	
 }

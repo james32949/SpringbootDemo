@@ -73,8 +73,13 @@ public class LoginController {
 			System.out.println("密碼正確"); // 密碼正確
 			session.setAttribute("memberID", mem.getMemberId());// 帳號密碼正確 存入Session 紀錄登入狀態
 			
-			Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷
+			Cookie cookie = new Cookie("LogInState", "200"); // 寫入Cookie 紀錄登入狀態 給預覽器判斷			
 			cookie.setMaxAge(3600); //設定 cookie 存活時間 單位為秒
+			
+			Cookie id = new Cookie("MemberID", String.valueOf(mem.getMemberId()));
+			id.setMaxAge(3600);
+			
+			res.addCookie(id);
 			res.addCookie(cookie);
 			
 			obj.put("State", true); 
@@ -94,6 +99,11 @@ public class LoginController {
 		Cookie cookie = new Cookie("LogInState", null);
 		cookie.setMaxAge(0);  //設定 cookie 存活時間 0-->立刻失效
 		res.addCookie(cookie);
+		
+		
+		Cookie id = new Cookie("MemberID", null);
+		cookie.setMaxAge(0);  //設定 cookie 存活時間 0-->立刻失效
+		res.addCookie(id);
 		
 
 		return "redirect:/index";
