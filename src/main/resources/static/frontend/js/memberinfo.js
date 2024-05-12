@@ -1,7 +1,7 @@
 //取消修改按鈕功能
 $(document).ready(function () {
   $('#buttonUpData').attr('disabled', true)
-  console.log(document.cookie)
+  // console.log(document.cookie)
 
 })
 
@@ -10,7 +10,7 @@ var phoneState = 0;
 var nameState = 0;
 var address = 0;
 
-//名稱欄位
+//名稱欄位檢查
 $('#memberName').change(function(){
   $('#buttonUpData').attr('disabled', false)
 })
@@ -66,7 +66,7 @@ $('#memberEmail').change(function () {
   }
 })
 
-//電話欄位
+//電話欄位檢查
 $('#memberPhone').change(function () {
   // console.log('OK')
   
@@ -130,4 +130,54 @@ $('#formFile').on('change', function () {
 //地址欄位
 $('#memberAddress').change(function(){
   $('#buttonUpData').attr('disabled', false)
+})
+
+//取得驗證碼
+$('#getAuthCode').click(function(){
+  // console.log('OK')
+
+  $.get({
+    url:'/redis/getAuthCode',
+    success: function(data){
+      // console.log(data)
+      let html_AuthCode = `<h1>`+data+`</h1>`;
+
+      $('#returnAuthCode').html(html_AuthCode)
+
+    }
+  })
+})
+
+//確認驗證碼
+$('#checkAuthCode').click(function(){
+  // console.log('OK')
+
+  let inputAuthCode = $('#inputAuthCode').val()
+  // console.log(inputAuthCode)
+   let id = getCookie('MemberID')
+  $.post({
+    url:'/frontend/member/checkAuthCode',
+    data:{
+      "inputAuthCode" : inputAuthCode,
+      "MemberID" : id
+    },
+    datatype:'json',
+    success:function(data){
+      // console.log(data.checkAuthCode)
+
+      switch (data.checkAuthCode) {
+        case '404':
+          $('#errorText').html('連結已逾時，請重新申請');
+          break;
+        case '200':
+          $('#errorText').html('');
+          $('#cloose_button').click()
+          $('#div_button_checkAuthCode').html('<button type="button" class="btn btn-success">已驗證</button>')
+          break;
+        case '400':
+          $('#errorText').html('驗證碼有誤，請重新輸入');
+          break;    
+      }
+    }
+  })
 })

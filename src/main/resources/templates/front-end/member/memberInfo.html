@@ -18,20 +18,20 @@
 		<div class="news-section">
 			<div class="container">
 				<!-- 東西從這裡放 -->
-				<div style="width: 100%; display: flex; justify-content: center;">
 
-		<div class="card mb-3" style="width: 300px; min-width: 300px; height:292px;">
-			<h3 class="card-header">會員專區</h3>
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item">個人資料</li>
-				<li class="list-group-item">訂房查詢</li>
-				<li class="list-group-item">活動訂單</li>
-				<li class="list-group-item">餐廳訂位</li>
-				<li class="list-group-item">宴會聽</li>
-			</ul>
-			<div class="card-footer text-muted">JoyfulResort</div>
-		</div>
-
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button style="width: auto;" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">個人資料</button>
+    <button style="width: auto;" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">修改密碼</button>
+    <button style="width: auto;" class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">住宿訂單</button>
+    <button style="width: auto;" class="nav-link" id="nav-contact-tab2" data-bs-toggle="tab" data-bs-target="#nav-contact2" type="button" role="tab" aria-controls="nav-contact2" aria-selected="false">活動訂單</button>
+    <button style="width: auto;" class="nav-link" id="nav-contact-tab3" data-bs-toggle="tab" data-bs-target="#nav-contact3" type="button" role="tab" aria-controls="nav-contact3" aria-selected="false">會議廳訂單</button>
+    <button style="width: auto;" class="nav-link" id="nav-contact-tab4" data-bs-toggle="tab" data-bs-target="#nav-contact4" type="button" role="tab" aria-controls="nav-contact4" aria-selected="false">餐廳訂位</button>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+  		<div style="width: 100%; display: flex; justify-content: center;">
 
 
 		<div class="card" style="max-width: 600px; min-width: 600px;">
@@ -46,34 +46,41 @@
 							<div id="preview" style=" height: 150px; width: 150px; float: left;"><img class="img-thumbnail"
 									th:src="@{/member/DBReader}+'?memberID='+${memberData.memberId}"></div>
 							<div>
-								<div class="input-group mb-3" style="float: left;">
+								<div class="input-group mb-3" style="float: left; margin-top: 2%;">
 									<span class="input-group-text">會員帳號</span> <span style="width: auto;" class="input-group-text"
 										th:text="${memberData.memberAccount}"></span>
 								</div>
-								<div class="input-group mb-3" style="width: 300px;">
+								<div class="input-group mb-3" style="width: 300px; margin-top: 18%;">
 									<span class="input-group-text">會員名稱</span> <input type="text" id="memberName" name="memberName"
 										class="form-control" th:value="${memberData.memberName}"
 										aria-label="Amount (to the nearest dollar)">
 								</div>
-								<div>
-									<input id="formFile" name="memberImg" th:fiele="*{memberImg}" class="form-control" type="file"
-										style="width: 300px;">
-								</div>
+								
 							</div>
 						</div>
 					</div>
-
-
+					
+					<div style="max-width: 200px; margin-bottom: 3%;"> 
+						<input id="formFile" name="memberImg" th:fiele="*{memberImg}" class="form-control" type="file">
+					</div>
+					
 					<span id="emailError" style="color: red; float: right;"></span>
 					<div class="input-group mb-3" style="flex-shrink: 0; width:400px !important;">
 						<span class="input-group-text"><span style="color:red;">*</span>信箱</span>
 						<input id="memberEmail" name="memberEmail" type="text" class="form-control"
 							th:value="${memberData.memberEmail}">
+						<!-- Button trigger modal 驗證按鈕-->
+						<div th:switch="${memberData.memberState}" id="div_button_checkAuthCode">
+							<button th:case="0" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">驗證</button>	
+							<button th:case="2" type="button" class="btn btn-danger">停權</button>	
+							<button th:case="1" type="button" class="btn btn-success">已驗證</button>	
+						</div>	
 					</div>
 					<span id="phoneError" style="color: red; float: right;"></span>
 					<div class="input-group mb-3" style="width:400px !important;">
 						<span class="input-group-text"><span style="color:red;">*</span>電話</span> <input id="memberPhone"
 							name="memberPhone" type="text" class="form-control" th:value="${memberData.memberPhone}">
+							
 					</div>
 					<div class="input-group mb-3" style="width: 100%;">
 						<span class="input-group-text">地址</span> <input id="memberAddress" name="memberAddress" type="text"
@@ -100,15 +107,56 @@
 
 		</div>
 	</div>
-
-
-
-
-
+  </div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">修改密碼</div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">住宿訂單</div>
+  <div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">活動訂單</div>
+  <div class="tab-pane fade" id="nav-contact3" role="tabpanel" aria-labelledby="nav-contact-tab">會議廳訂單</div>
+  <div class="tab-pane fade" id="nav-contact4" role="tabpanel" aria-labelledby="nav-contact-tab">餐廳訂位</div>
+</div> 
+<!-- 結束 -->
 			</div>
 		</div>
 	</div>
 	
+	
+	
+	<!-- Modal 驗證 -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	      
+			
+			  <div>
+			    <label for="basic-url" class="form-label">您的驗證碼</label>
+			    <div id="returnAuthCode"><h1>請按'取得驗證碼'</h1></div>
+			    <span style="color: red;">*驗正碼有效時間為一分鐘</span>
+				<div class="input-group mb-3">
+				  
+				  <span class="input-group-text" id="basic-addon3">請輸入驗證碼</span>
+				  <input type="text" class="form-control" id="inputAuthCode" aria-describedby="basic-addon3">
+				  
+				</div>
+				
+				<div>
+			    <button id="getAuthCode" type="button" class="btn btn-primary mb-3">取得驗證碼</button>
+			    </div>
+			    <span id="errorText" style="color: red;"></span>
+			  </div>
+
+	      
+	      </div>
+	      <div class="modal-footer">
+	        <button id="cloose_button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+	        <button id="checkAuthCode" type="button" class="btn btn-primary">確認送出</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
 	<!-- Modal  燈箱 -->
 	<div class="modal fade" id="exampleModal" tabindex="-1"
@@ -199,6 +247,7 @@
 	})
 	</script>
 	<script th:src="@{/frontend/js/memberLogin.js}"></script>
+	<script th:src="@{/frontend/js/memberinfo.js}"></script>
 </body>
 
 </html>
