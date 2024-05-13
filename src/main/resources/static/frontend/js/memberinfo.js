@@ -1,7 +1,9 @@
+
 //取消修改按鈕功能
 $(document).ready(function () {
-  $('#buttonUpData').attr('disabled', true)
   // console.log(document.cookie)
+  $('#buttonUpData').attr('disabled', true)
+  $('#newPassword').attr('disabled', true)
 
 })
 
@@ -11,14 +13,14 @@ var nameState = 0;
 var address = 0;
 
 //名稱欄位檢查
-$('#memberName').change(function(){
+$('#memberName').change(function () {
   $('#buttonUpData').attr('disabled', false)
 })
 
 //信箱欄位
 $('#memberEmail').change(function () {
   // console.log('OK')
-  
+
 
   let inputEmail = $('#memberEmail').val()
   //正規表示法
@@ -69,7 +71,7 @@ $('#memberEmail').change(function () {
 //電話欄位檢查
 $('#memberPhone').change(function () {
   // console.log('OK')
-  
+
   let inputPhone = $('#memberPhone').val()
   //正規表示法
   let regexPhone = /^09\d{8}$/g
@@ -128,19 +130,19 @@ $('#formFile').on('change', function () {
 })
 
 //地址欄位
-$('#memberAddress').change(function(){
+$('#memberAddress').change(function () {
   $('#buttonUpData').attr('disabled', false)
 })
 
 //取得驗證碼
-$('#getAuthCode').click(function(){
+$('#getAuthCode').click(function () {
   // console.log('OK')
 
   $.get({
-    url:'/redis/getAuthCode',
-    success: function(data){
+    url: '/redis/getAuthCode',
+    success: function (data) {
       // console.log(data)
-      let html_AuthCode = `<h1>`+data+`</h1>`;
+      let html_AuthCode = `<h1>` + data + `</h1>`;
 
       $('#returnAuthCode').html(html_AuthCode)
 
@@ -149,20 +151,20 @@ $('#getAuthCode').click(function(){
 })
 
 //確認驗證碼
-$('#checkAuthCode').click(function(){
+$('#checkAuthCode').click(function () {
   // console.log('OK')
 
   let inputAuthCode = $('#inputAuthCode').val()
   // console.log(inputAuthCode)
-   let id = getCookie('MemberID')
+  let id = getCookie('MemberID')
   $.post({
-    url:'/frontend/member/checkAuthCode',
-    data:{
-      "inputAuthCode" : inputAuthCode,
-      "MemberID" : id
+    url: '/frontend/member/checkAuthCode',
+    data: {
+      "inputAuthCode": inputAuthCode,
+      "MemberID": id
     },
-    datatype:'json',
-    success:function(data){
+    datatype: 'json',
+    success: function (data) {
       // console.log(data.checkAuthCode)
 
       switch (data.checkAuthCode) {
@@ -176,8 +178,13 @@ $('#checkAuthCode').click(function(){
           break;
         case '400':
           $('#errorText').html('驗證碼有誤，請重新輸入');
-          break;    
+          break;
       }
     }
   })
+})
+
+//修改密碼 確認送出按鈕
+$('#newPassword').click(function () {
+  console.log('OK')
 })
