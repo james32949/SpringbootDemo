@@ -112,5 +112,10 @@ public class MemberService {
 		repository.save(member);
 		return;
 	}
+
+	public void changePassword(MemberVO mem) {
+		repository.save(mem);
+		
+	}
 	
 }

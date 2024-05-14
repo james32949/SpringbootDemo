@@ -21,25 +21,7 @@ public class MemberController {
 
 	@Autowired
 	MemberService memSvc;
-	
-	@GetMapping("/TTT")
-	public String TTT() {
-		return "backend/member/listAllRoomOrder";
-	}
 
-	@GetMapping("/listAllMember.html")
-	public String listAllMember(Model model) {
-		List<MemberVO> list = memSvc.getAll();
-		model.addAttribute("memListData", list);
-		return "backend/member/listAllMember";
-	}
-
-	@GetMapping("/blankTest.html")
-	public String blankTest(Model model) {
-		List<MemberVO> list = memSvc.getAll();
-		model.addAttribute("memListData", list);
-		return "backend/member/blankTest";
-	}
 
 	// 進入頁面後給AllMember資料
 	@GetMapping("/blankMember.html")

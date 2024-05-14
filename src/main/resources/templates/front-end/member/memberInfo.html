@@ -146,28 +146,33 @@
 							<div class="card" style="width: 500px;">
 								<h5 class="card-header">修改密碼</h5>
 								<div class="card-body">
-									<label for="inputPassword1" class="form-label">請輸入密碼</label>
-									<input type="password" id="inputPassword_1" class="form-control"
-										aria-describedby="passwordHelpBlock">
-									<div id="passwordHelpBlock_1" class="form-text" style="color: red;"></div>
+								<form>
+									<label for="inputPassword1" class="form-label"><span style="color: red;">*</span>請輸入密碼</label>
+									<input type="password" id="inputPassword_1" class="form-control" autocomplete>
+									<div id="passwordHelpBlock_1" class="form-text" style="color: red;">*密碼由英文大小寫加數字共10位組成,不能有空格</div>
 
-									<label style="margin-top: 20px;" for="inputPassword2" class="form-label">請輸入新密碼</label>
-									<input type="password" id="inputPassword_2" class="form-control"
-										aria-describedby="passwordHelpBlock">
+									<label style="margin-top: 20px;" for="inputPassword2" class="form-label"><span style="color: red;">*</span>請輸入新密碼</label>
+									<input type="password" id="inputPassword_2" class="form-control" autocomplete>
 									<div id="passwordHelpBlock_2" class="form-text" style="color: red;"></div>
 
-									<label style="margin-top: 20px;" for="inputPassword3" class="form-label">請再輸入一次新密碼</label>
-									<input type="password" id="inputPassword_3" class="form-control"
-										aria-describedby="passwordHelpBlock">
+									<label style="margin-top: 20px;" for="inputPassword3" class="form-label"><span style="color: red;">*</span>請再輸入一次新密碼</label>
+									<input type="password" id="inputPassword_3" class="form-control" autocomplete>
 									<div id="passwordHelpBlock_3" class="form-text" style="color: red;"></div>
-
+									
+									
 									<div style="display: flex; justify-content: center; margin-top: 20px;">
+									
 										<button id="newPassword" type="button"
 											class="btn btn-outline-primary">確認送出</button>
+										
 									</div>
-
+									<div id="passwordHelpBlock_4" class="form-text" style="color: red; text-align: center;"></div>	
+								</form>
+								
 								</div>
+								
 							</div>
+							
 						</div>
 
 					</div>

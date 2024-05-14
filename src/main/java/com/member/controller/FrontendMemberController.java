@@ -48,7 +48,7 @@ public class FrontendMemberController {
 		res.setContentType("application/json; charset=UTF-8");
 
 		String inputColumn = req.getParameter("inputColumn");
-		System.out.println(inputColumn);
+//		System.out.println(inputColumn);
 
 		// 檢查輸入欄位
 		switch (inputColumn) {
@@ -196,10 +196,42 @@ public class FrontendMemberController {
 			obj.put("checkAuthCode", "400");
 			res.getWriter().print(obj);
 		}
-		
-		
-		
 		return;
+	}
+	//修改密碼
+	@PostMapping("/passwordRevise")
+	@ResponseBody
+	public boolean revisePassword(HttpServletRequest req, HttpServletResponse res) {
+		res.setContentType("application/json; charset=UTF-8");
+		//取得用戶輸入資料
+		String ID = req.getParameter("MemberID");
+		String pw_1 = req.getParameter("password_1");
+		String pw_2 = req.getParameter("password_2");
+		String pw_3 = req.getParameter("password_3");
+		
+		System.out.printf("用戶ID: %s%n密碼: %s%n新密碼: %s%n再輸入: %s%n", ID, pw_1, pw_2, pw_3);
+		
+		MemberVO mem = memSvc.getOneMember(Integer.valueOf(ID));
+		String password = mem.getMemberPassword();
+		System.out.println("資料庫密碼: "+password);
+		System.out.println("--------------------------");
+		
+		if(password.equals(pw_1)) {
+			if(pw_2.equals(pw_3)) {
+				System.out.println("密碼正確 pw_2,pw_3輸入一致");
+				//修改會員密碼
+				mem.setMemberPassword(pw_2);
+				memSvc.changePassword(mem);
+				
+				return true;
+			}
+			System.out.println("密碼正確 pw_2,pw_3輸入不一致");
+			return false;
+		} else {
+			System.out.println("密碼錯誤");
+			return false;
+		}
+		
 	}
 
 }

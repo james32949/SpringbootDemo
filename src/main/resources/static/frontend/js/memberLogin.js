@@ -42,7 +42,7 @@ $('#Button_Login').click(function () {
 
   if (inputAccount !== "" && inputPassword !== "") {
     $.post({
-      url: '/Login',
+      url: 'frontend/Login',
       data: {
         'userAccount': inputAccount,
         'userPassword': inputPassword

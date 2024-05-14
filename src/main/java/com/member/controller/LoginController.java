@@ -20,16 +20,11 @@ import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/frontend")
 public class LoginController {
 	
 	@Autowired
 	MemberService memSvc;
-	
-	@GetMapping("/")
-	public String Myfone() {
-		return "form1";
-	}
 	
 	
 	@GetMapping("/index")
@@ -106,7 +101,7 @@ public class LoginController {
 		res.addCookie(id);
 		
 
-		return "redirect:/index";
+		return "redirect:/frontend/index";
 	}
 	
 	

@@ -14,7 +14,7 @@ public class RedisTest {
 	StringRedisTemplate StringRedisTemplast;
 
 	// 測試
-	@GetMapping("/HelloRedis")
+//	@GetMapping("/HelloRedis")
 	public String count() {
 
 		Long HelloRedis = StringRedisTemplast.opsForValue().increment("HelloRedis");
@@ -22,7 +22,7 @@ public class RedisTest {
 		return "訪問次數:" + HelloRedis;
 	}
 
-	@GetMapping("/TestRedis")
+//	@GetMapping("/TestRedis")
 	public String setTest() {
 		// 寫入Key-Value
 		StringRedisTemplast.boundValueOps("測試").set("測試用數居");
@@ -30,7 +30,7 @@ public class RedisTest {
 //		StringRedisTemplast.expire("測試", 1, TimeUnit.MINUTES);
 
 		// 設定Key-Value時同時設定存活時間
-		StringRedisTemplast.opsForValue().set("測試2", "晚餐吃什麼??", 1, TimeUnit.MINUTES);
+		StringRedisTemplast.opsForValue().set("測試2", "等一下吃什麼??", 1, TimeUnit.MINUTES);
 
 		return StringRedisTemplast.opsForValue().get("測試2");
 	}

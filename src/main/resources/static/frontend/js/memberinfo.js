@@ -1,9 +1,21 @@
+//取得指定Cookie JS無法直接取得指定cookie 的Key-value 需要自己寫function取得 
+function getCookie(cookieName) {  // 自訂function
+  const strCookie = document.cookie
+  const cookieList = strCookie.split(';')
+
+  for (let i = 0; i < cookieList.length; i++) {
+    const arr = cookieList[i].split('=')
+    if (cookieName === arr[0].trim()) {
+      return arr[1]
+    }
+  }
+}
 
 //取消修改按鈕功能
 $(document).ready(function () {
   // console.log(document.cookie)
   $('#buttonUpData').attr('disabled', true)
-  $('#newPassword').attr('disabled', true)
+  // $('#newPassword').attr('disabled', true)
 
 })
 
@@ -184,7 +196,89 @@ $('#checkAuthCode').click(function () {
   })
 })
 
+
+var pw_2 = 0;
+var pw_3 = 0;
+
+//新密碼
+$('#inputPassword_2').change(function(){
+  let regexPassword = /^\w{1,10}$/g
+  let password_2 = $('#inputPassword_2').val()
+
+  if(!regexPassword.test(password_2)){
+    $('#passwordHelpBlock_2').html('密碼格式錯誤')
+    $('#newPassword').attr('disabled', true)
+    pw_2 = 1;
+  } else {
+    $('#passwordHelpBlock_2').html('')
+    pw_2 = 0;
+    if(pw_2 == 0 && pw_3 == 0){
+      $('#newPassword').attr('disabled', false)
+    }
+  }
+})
+
+//確認新密碼
+$('#inputPassword_3').change(function(){
+  let password_3 = $('#inputPassword_3').val()
+  let password_2 = $('#inputPassword_2').val()
+  if(password_2 != password_3){
+    $('#passwordHelpBlock_3').html('密碼不一致')
+    $('#newPassword').attr('disabled', true)
+    pw_3 = 1;
+  } else {
+    $('#passwordHelpBlock_3').html('')
+    pw_3 = 0;
+    if(pw_2 == 0 && pw_3 == 0){
+      $('#newPassword').attr('disabled', false)
+    }
+  }
+
+})
+
+
+
 //修改密碼 確認送出按鈕
 $('#newPassword').click(function () {
-  console.log('OK')
+  // console.log('OK')
+
+  //取值
+  let MemberID = getCookie('MemberID')
+  let password_1 = $('#inputPassword_1').val()
+  let password_2 = $('#inputPassword_2').val()
+  let password_3 = $('#inputPassword_3').val()
+
+  // console.log("輸入密碼:"+password_1)
+  // console.log("新密碼:"+password_2)
+  // console.log("再次輸入密碼:"+password_3)
+
+
+
+  if (password_1 == "" && password_2 == "" && password_3 == "") {
+    $('#passwordHelpBlock_4').html('不能有空欄位')
+
+  } else {
+    $.post({
+      url: '/frontend/member/passwordRevise',
+      data: {
+        'MemberID': MemberID,
+        'password_1': password_1,
+        'password_2': password_2,
+        'password_3': password_3
+      },
+      datatype: 'json',
+      success: function (data) {
+        console.log(data);
+
+        if (data) {
+          console.log("正確")
+        } else {
+          console.log('錯誤')
+        }
+
+      }
+    })
+  }
+
+
 })
